@@ -6,7 +6,7 @@ import           Hakyll
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith config $ do
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -59,8 +59,11 @@ main = hakyll $ do
 
     match "templates/*" $ compile templateCompiler
 
+config :: Configuration
+config = defaultConfiguration
+       { deployCommand = "rm /var/www/itscomputersciencetime.com/* -r && cp ./_site/* /var/www/itscomputersciencetime.com/*"
+       }
 
---------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
