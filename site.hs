@@ -61,7 +61,7 @@ main = hakyllWith config $ do
 
 config :: Configuration
 config = defaultConfiguration
-       { deployCommand = "rm /var/www/itscomputersciencetime.com/* -r && cp ./_site/* /var/www/itscomputersciencetime.com/*"
+       { deployCommand = "rm /var/www/itscomputersciencetime.com -r && mkdir /var/www/itscomputersciencetime.com && cp ./_site/* /var/www/itscomputersciencetime.com/ -r"
        }
 
 postCtx :: Context String
