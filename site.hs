@@ -61,7 +61,9 @@ main = hakyllWith config $ do
 
 config :: Configuration
 config = defaultConfiguration
-       { deployCommand = "rm /var/www/itscomputersciencetime.com -r && mkdir /var/www/itscomputersciencetime.com && cp ./_site/* /var/www/itscomputersciencetime.com/ -r"
+       {
+         --deployCommand = "rm /var/www/itscomputersciencetime.com -r && mkdir /var/www/itscomputersciencetime.com && cp ./_site/* /var/www/itscomputersciencetime.com/ -r"
+         deployCommand = "scp -r _site/* nsmryan@69.164.197.187:itscomputersciencetime.com/"
        }
 
 postCtx :: Context String
