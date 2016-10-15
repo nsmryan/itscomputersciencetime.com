@@ -1,0 +1,7 @@
+_cache
+*~
+*.hi
+*.o
+hakyll
+.cabal-sandbox/*
+_cache/*

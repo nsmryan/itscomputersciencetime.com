@@ -14,5 +14,6 @@ This post is mostly a test of the website, but I thought I would also list some 
     <li> discrimination- perform sorting and other tasks in linear time.
     <li> ad- automatic differentiation. This can be used to write functions and getting their derivatives automatically. He has talks about succinct data structures, lens, discrimination, and functional cache oblivious algorithms.
     <li> propagators- This seems to be his recent interest.
+    <li> succient data structures- informally these are data structures that are partially compressed and allow certain operations to be performed on them without decompressing them first.
   <ul/>
 <ul/>
