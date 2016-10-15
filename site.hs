@@ -11,6 +11,10 @@ main = hakyllWith config $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "elm/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler

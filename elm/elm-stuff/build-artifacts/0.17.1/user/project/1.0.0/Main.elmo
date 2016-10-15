@@ -1,0 +1,415 @@
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _elm_lang$core$Native_List.fromArray(
+		[
+			{
+			segStart: A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 10, 100),
+			segEnd: A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 10, 10),
+			progress: 0.0
+		}
+		]),
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Main$randomVec2 = F2(
+	function (a, b) {
+		return A3(
+			_mgold$elm_random_pcg$Random_Pcg$map2,
+			_elm_community$elm_linear_algebra$Math_Vector2$vec2,
+			A2(_mgold$elm_random_pcg$Random_Pcg$float, a, b),
+			A2(_mgold$elm_random_pcg$Random_Pcg$float, a, b));
+	});
+var _user$project$Main$drawBox = function (box) {
+	var offset = _evancz$elm_graphics$Collage$move(
+		{
+			ctor: '_Tuple2',
+			_0: _elm_community$elm_linear_algebra$Math_Vector2$getX(box.dims),
+			_1: _elm_community$elm_linear_algebra$Math_Vector2$getY(box.dims)
+		});
+	var rectangle = A2(
+		_evancz$elm_graphics$Collage$rect,
+		_elm_community$elm_linear_algebra$Math_Vector2$getX(box.dims),
+		_elm_community$elm_linear_algebra$Math_Vector2$getY(box.dims));
+	return offset(
+		A2(_evancz$elm_graphics$Collage$filled, _elm_lang$core$Color$blue, rectangle));
+};
+var _user$project$Main$mkBox = F2(
+	function (pos, dims) {
+		return {pos: pos, dims: dims};
+	});
+var _user$project$Main$randomBox = F2(
+	function (a, b) {
+		var rvec = A2(_user$project$Main$randomVec2, a, b);
+		return A3(_mgold$elm_random_pcg$Random_Pcg$map2, _user$project$Main$mkBox, rvec, rvec);
+	});
+var _user$project$Main$zero2 = A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0.0, 0.0);
+var _user$project$Main$initBox = A2(_user$project$Main$mkBox, _user$project$Main$zero2, _user$project$Main$zero2);
+var _user$project$Main$polygonStyle = _evancz$elm_graphics$Collage$defaultLine;
+var _user$project$Main$listCorners = function (polygon) {
+	var _p0 = polygon;
+	if (_p0.ctor === 'Leaf') {
+		var _p1 = _p0._0;
+		return _elm_lang$core$Native_List.fromArray(
+			[
+				{
+				ctor: '_Tuple2',
+				_0: _elm_community$elm_linear_algebra$Math_Vector2$getX(_p1),
+				_1: _elm_community$elm_linear_algebra$Math_Vector2$getY(_p1)
+			}
+			]);
+	} else {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Main$listCorners(_p0._0),
+			_user$project$Main$listCorners(_p0._1));
+	}
+};
+var _user$project$Main$drawPolygon = function (polygon) {
+	return A2(
+		_evancz$elm_graphics$Collage$outlined,
+		_user$project$Main$polygonStyle,
+		_evancz$elm_graphics$Collage$polygon(
+			_user$project$Main$listCorners(polygon)));
+};
+var _user$project$Main$apply2 = F3(
+	function (f, ls, ls$) {
+		return A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Basics$uncurry(f),
+			A3(
+				_elm_lang$core$List$map2,
+				F2(
+					function (v0, v1) {
+						return {ctor: '_Tuple2', _0: v0, _1: v1};
+					}),
+				ls,
+				ls$));
+	});
+var _user$project$Main$shade = F2(
+	function (levels, form) {
+		var opacities = A3(
+			_elm_lang$core$List$scanl,
+			F2(
+				function (x, y) {
+					return x + y;
+				}),
+			0,
+			A2(
+				_elm_lang$core$List$drop,
+				1,
+				A2(
+					_elm_lang$core$List$repeat,
+					levels,
+					1 / _elm_lang$core$Basics$toFloat(levels))));
+		var sizes = _elm_lang$core$List$reverse(opacities);
+		var forms = A2(
+			_elm_lang$core$List$repeat,
+			_elm_lang$core$List$length(sizes),
+			form);
+		return A3(
+			_user$project$Main$apply2,
+			_evancz$elm_graphics$Collage$scale,
+			sizes,
+			A3(_user$project$Main$apply2, _evancz$elm_graphics$Collage$alpha, opacities, forms));
+	});
+var _user$project$Main$lineScale = function (progress) {
+	return 1 - _elm_lang$core$Basics$abs(1 - (progress * 2.0));
+};
+var _user$project$Main$lineFinished = function (_p2) {
+	var _p3 = _p2;
+	return !_elm_lang$core$Native_Utils.eq(_p3.progress, 1.0);
+};
+var _user$project$Main$vecPair = function (vec) {
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_community$elm_linear_algebra$Math_Vector2$getX(vec),
+		_1: _elm_community$elm_linear_algebra$Math_Vector2$getY(vec)
+	};
+};
+var _user$project$Main$drawLine = function (_p4) {
+	var _p5 = _p4;
+	var _p8 = _p5.segStart;
+	var _p7 = _p5.segEnd;
+	var _p6 = _p5.progress;
+	var currentScale = _user$project$Main$lineScale(_p6);
+	var beforeMid = _elm_lang$core$Native_Utils.cmp(_p6, 0.5) < 0;
+	var dirLine = beforeMid ? A2(_elm_community$elm_linear_algebra$Math_Vector2$sub, _p7, _p8) : A2(_elm_community$elm_linear_algebra$Math_Vector2$sub, _p8, _p7);
+	var line = A2(_elm_community$elm_linear_algebra$Math_Vector2$scale, currentScale, dirLine);
+	var startPoint = beforeMid ? _p8 : _p7;
+	var endPoint = A2(_elm_community$elm_linear_algebra$Math_Vector2$add, startPoint, line);
+	var segment = A2(
+		_evancz$elm_graphics$Collage$segment,
+		_user$project$Main$vecPair(startPoint),
+		_user$project$Main$vecPair(endPoint));
+	return A2(_evancz$elm_graphics$Collage$traced, _evancz$elm_graphics$Collage$defaultLine, segment);
+};
+var _user$project$Main$drawLineGrid = function (lineGrid) {
+	return _evancz$elm_graphics$Collage$group(
+		A2(_elm_lang$core$List$map, _user$project$Main$drawLine, lineGrid));
+};
+var _user$project$Main$progressLine = function (line) {
+	return _elm_lang$core$Native_Utils.update(
+		line,
+		{
+			progress: A2(_elm_lang$core$Basics$min, 1.0, line.progress + 1.0e-3)
+		});
+};
+var _user$project$Main$circleColor = _elm_lang$core$Color$darkGray;
+var _user$project$Main$drawCircle = function (radius) {
+	var circleForm = A2(
+		_evancz$elm_graphics$Collage$filled,
+		_user$project$Main$circleColor,
+		_evancz$elm_graphics$Collage$circle(radius));
+	return _evancz$elm_graphics$Collage$group(
+		A2(_user$project$Main$shade, 25, circleForm));
+};
+var _user$project$Main$heightW = 1000;
+var _user$project$Main$widthW = 1000;
+var _user$project$Main$maxDim = _user$project$Main$widthW;
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_evancz$elm_graphics$Element$toHtml(
+				A3(
+					_evancz$elm_graphics$Collage$collage,
+					_user$project$Main$widthW,
+					_user$project$Main$heightW,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_user$project$Main$drawLineGrid(model)
+						])))
+			]));
+};
+var _user$project$Main$yW = 0;
+var _user$project$Main$xW = 0;
+var _user$project$Main$viewBoxDims = A3(
+	_elm_lang$core$List$foldl,
+	F2(
+		function (x, y) {
+			return A2(_elm_lang$core$Basics_ops['++'], x, y);
+		}),
+	'',
+	A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Basics$toString,
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$Main$xW, _user$project$Main$yW, _user$project$Main$widthW, _user$project$Main$heightW])));
+var _user$project$Main$maxNumLines = 150;
+var _user$project$Main$lineCreateProb = 0.1;
+var _user$project$Main$testCreateLine = function (p) {
+	return _elm_lang$core$Native_Utils.cmp(p, _user$project$Main$lineCreateProb) < 0;
+};
+var _user$project$Main$lineCreateSpeed = 0.1;
+var _user$project$Main$animationSpeed = 0.2;
+var _user$project$Main$hexRed = 802887;
+var _user$project$Main$hexGreen = 9343807;
+var _user$project$Main$hexBlue = 7054798;
+var _user$project$Main$hexOrange2 = 16741376;
+var _user$project$Main$hexOrange = 13189191;
+var _user$project$Main$Box = F2(
+	function (a, b) {
+		return {pos: a, dims: b};
+	});
+var _user$project$Main$Line = F3(
+	function (a, b, c) {
+		return {segStart: a, segEnd: b, progress: c};
+	});
+var _user$project$Main$Grid = F2(
+	function (a, b) {
+		return {spacing: a, length: b};
+	});
+var _user$project$Main$grid = A2(_user$project$Main$Grid, 10, 50);
+var _user$project$Main$offsetToPos = function (offset) {
+	return _elm_lang$core$Basics$toFloat(offset) * _user$project$Main$grid.spacing;
+};
+var _user$project$Main$AddLine = function (a) {
+	return {ctor: 'AddLine', _0: a};
+};
+var _user$project$Main$TriggerLine = {ctor: 'TriggerLine'};
+var _user$project$Main$CreateLine = function (a) {
+	return {ctor: 'CreateLine', _0: a};
+};
+var _user$project$Main$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
+};
+var _user$project$Main$Animate = {ctor: 'Animate'};
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$Main$Tick),
+				A2(
+				_elm_lang$core$Time$every,
+				_user$project$Main$animationSpeed,
+				_elm_lang$core$Basics$always(_user$project$Main$Animate)),
+				A2(
+				_elm_lang$core$Time$every,
+				_user$project$Main$lineCreateSpeed,
+				_elm_lang$core$Basics$always(_user$project$Main$TriggerLine))
+			]));
+};
+var _user$project$Main$Node = F2(
+	function (a, b) {
+		return {ctor: 'Node', _0: a, _1: b};
+	});
+var _user$project$Main$Leaf = F2(
+	function (a, b) {
+		return {ctor: 'Leaf', _0: a, _1: b};
+	});
+var _user$project$Main$unitBox = A2(
+	_user$project$Main$Node,
+	A2(
+		_user$project$Main$Node,
+		A2(
+			_user$project$Main$Leaf,
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, 0),
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 1, 0)),
+		A2(
+			_user$project$Main$Leaf,
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 1, 0),
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 1, 1))),
+	A2(
+		_user$project$Main$Node,
+		A2(
+			_user$project$Main$Leaf,
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 1, 1),
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, 1)),
+		A2(
+			_user$project$Main$Leaf,
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, 1),
+			A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, 0))));
+var _user$project$Main$scalePolygon = F3(
+	function (a, b, polygon) {
+		var _p9 = polygon;
+		if (_p9.ctor === 'Leaf') {
+			var _p11 = _p9._0;
+			var _p10 = _p9._1;
+			return A2(
+				_user$project$Main$Leaf,
+				A2(
+					_elm_community$elm_linear_algebra$Math_Vector2$vec2,
+					_elm_community$elm_linear_algebra$Math_Vector2$getX(_p11) * a,
+					_elm_community$elm_linear_algebra$Math_Vector2$getY(_p11) * b),
+				A2(
+					_elm_community$elm_linear_algebra$Math_Vector2$vec2,
+					_elm_community$elm_linear_algebra$Math_Vector2$getX(_p10) * a,
+					_elm_community$elm_linear_algebra$Math_Vector2$getY(_p10) * b));
+		} else {
+			return A2(
+				_user$project$Main$Node,
+				A3(_user$project$Main$scalePolygon, a, b, _p9._0),
+				A3(_user$project$Main$scalePolygon, a, b, _p9._1));
+		}
+	});
+var _user$project$Main$randomPolgon = F2(
+	function (a, b) {
+		var rvec = A2(_user$project$Main$randomVec2, a, b);
+		var rleaf = A3(_mgold$elm_random_pcg$Random_Pcg$map2, _user$project$Main$Leaf, rvec, rvec);
+		var rnode = A3(_mgold$elm_random_pcg$Random_Pcg$map2, _user$project$Main$Node, rleaf, rleaf);
+		return A3(_mgold$elm_random_pcg$Random_Pcg$map2, _user$project$Main$Node, rnode, rnode);
+	});
+var _user$project$Main$Right = {ctor: 'Right'};
+var _user$project$Main$Left = {ctor: 'Left'};
+var _user$project$Main$Down = {ctor: 'Down'};
+var _user$project$Main$Up = {ctor: 'Up'};
+var _user$project$Main$randomLine = function () {
+	var dirVec = function (dir) {
+		var _p12 = A2(_elm_lang$core$Maybe$withDefault, _user$project$Main$Up, dir);
+		switch (_p12.ctor) {
+			case 'Up':
+				return A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, 1);
+			case 'Down':
+				return A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 0, -1);
+			case 'Left':
+				return A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, -1, 0);
+			default:
+				return A2(_elm_community$elm_linear_algebra$Math_Vector2$vec2, 1, 0);
+		}
+	};
+	var mkLine = F3(
+		function (cell, dir, offset) {
+			var directionVector = dirVec(dir);
+			var segStart = A2(
+				_elm_community$elm_linear_algebra$Math_Vector2$vec2,
+				_user$project$Main$offsetToPos(
+					_elm_lang$core$Basics$fst(cell)),
+				_user$project$Main$offsetToPos(
+					_elm_lang$core$Basics$snd(cell)));
+			var segEnd = A2(
+				_elm_community$elm_linear_algebra$Math_Vector2$add,
+				segStart,
+				A2(
+					_elm_community$elm_linear_algebra$Math_Vector2$scale,
+					_user$project$Main$offsetToPos(offset),
+					directionVector));
+			return {segStart: segStart, segEnd: segEnd, progress: 0.0};
+		});
+	var rOffset = A2(_mgold$elm_random_pcg$Random_Pcg$int, 0, _user$project$Main$grid.length);
+	var rCell = A3(
+		_mgold$elm_random_pcg$Random_Pcg$map2,
+		F2(
+			function (v0, v1) {
+				return {ctor: '_Tuple2', _0: v0, _1: v1};
+			}),
+		rOffset,
+		rOffset);
+	var rDir = _mgold$elm_random_pcg$Random_Pcg$sample(
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$Main$Up, _user$project$Main$Down, _user$project$Main$Left, _user$project$Main$Right]));
+	return A4(_mgold$elm_random_pcg$Random_Pcg$map3, mkLine, rCell, rDir, rOffset);
+}();
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p13 = msg;
+		switch (_p13.ctor) {
+			case 'Tick':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Animate':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(
+						_elm_lang$core$List$filter,
+						_user$project$Main$lineFinished,
+						A2(_elm_lang$core$List$map, _user$project$Main$progressLine, model)),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'TriggerLine':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_mgold$elm_random_pcg$Random_Pcg$generate,
+						_user$project$Main$CreateLine,
+						A2(
+							_mgold$elm_random_pcg$Random_Pcg$map,
+							_user$project$Main$testCreateLine,
+							A2(_mgold$elm_random_pcg$Random_Pcg$float, 0, 1)))
+				};
+			case 'AddLine':
+				return {
+					ctor: '_Tuple2',
+					_0: (_elm_lang$core$Native_Utils.cmp(
+						_elm_lang$core$List$length(model),
+						_user$project$Main$maxNumLines) < 0) ? A2(_elm_lang$core$List_ops['::'], _p13._0, model) : model,
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var _p14 = _p13._0;
+				if (_p14 === true) {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: A2(_mgold$elm_random_pcg$Random_Pcg$generate, _user$project$Main$AddLine, _user$project$Main$randomLine)
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+		}
+	});
+var _user$project$Main$main = {
+	main: _elm_lang$html$Html_App$program(
+		{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})
+};
