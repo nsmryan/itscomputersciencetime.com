@@ -6,6 +6,8 @@ import Html.Events exposing (onClick)
 
 import String exposing (append)
 
+import Tuple
+
 import Math.Vector2 as Vec2 exposing (Vec2, vec2, getX, getY, scale, sub)
 
 import Time exposing (Time, second)
@@ -50,38 +52,82 @@ type alias BTDecorate s =
   BTResult -> BT s -> BTResult
 
 type BT s
-  = BTNode BTResult
-           (BTAction s)
-           (BTChildren s)
+  = Select (BTChildren s)
+  | Sequence (BTChildren s)
+  | RepeatWhile (BT s)
+  | Leaf (s -> (BTState, s))
 
-  | BTDecorator BTResult (BTDecorate s) (BT s)
-
-  | BTLeaf (s -> (BTState, s))
 
 type Behavior s =
-  Behavior s (List (BT s, BTChildren s))
+  Behavior s (BT s) (List (BT s))
 
-behave bt s = Behavior s [(bt, [])]
+behave bt s = Behavior s bt []
 
-step (Behavior s frames) = 
-  case frames of
-    [] -> Behavior s []
+step (Behavior s bt frames) = 
+  case bt of
+    Select children ->
+      case children of
+        [] ->
+          step (retrace BTFailure s frames)
 
-    ((BTNode result action children) :: frames') ->
+        (a :: rest) ->
+          step (Behavior s a (Select rest :: frames)
 
-    ((BTDecorator result f children) :: frames') ->
-      case f result of
-        BTSuccess -> step 
+    Sequence children -> 
+      case children of
+        [] ->
+          step (retrace BTSuccess s frames)
 
-        BTFailure -> 
+        (a :: rest) ->
+          step (Behavior s a (Sequence rest :: frames)
 
-    ((BTLeaf f) :: rest) -> 
+    RepeatWhile bt' ->
+      step (Behavior s bt' (RepeatWhile bt' :: frames)
+
+    BTLeaf f -> 
       case f s of
-        (BTReturn result, s') -> step' result (Behavior s' rest)
+        (BTReturn result, s') ->
+          step (retrace result s' rest)
 
-        (BTWait, s') -> Behavior s' frames
-      
-step' result (Behavior s frames) = 
+        (BTWait, s') ->
+          Behavior s' bt frames
+
+retrace : BTResult -> s -> [BT s] -> Behavior s
+retrace result s frames = 
+  case frames of
+    [] ->
+      Behavior s (Leaf waiter) []
+
+    (a :: rest) ->
+      case a of
+        Select children ->
+          case result of
+            BTFailure ->
+              Behavior s (Select children) rest
+
+            BTSuccess ->
+              retrace BTSuccess s rest
+
+        Sequence children -> 
+          case result of
+            BTFailure ->
+              retrace BTFailure s rest
+
+            BTSuccess ->
+              Behavior s (Sequence children) rest
+
+        RepeatWhile bt -> 
+          case result of
+            BTFailure ->
+              retrace result s rest
+
+            BTSuccess ->
+              Behavior s (RepeatWhile bt) rest
+
+        Leaf f -> 
+          Behavior s (Leaf f) rest
+
+waiter s = (BTWait, s)
 
 animationSpeed = 0.1
 

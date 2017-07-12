@@ -53,13 +53,14 @@ There are many interesting algorithms and data structures out there, but here ar
   a sensor), and determines an output by matching a series of templates against the input. The templates that match include an action to take,
   as well as extra data depending on the variation of this algorithm such as the expected payoff of the action.
 
-  These systems are interesting because the templates are created by a Genetic Algorithm which is evolving an entire population that collectively
-  determines the system's behavior. The contents of the matching templates, as well as the actions and some of the extra data, are the subject
-  of evolution.
+
+    These systems are interesting because the templates are created by a Genetic Algorithm which is evolving an entire population that collectively
+    determines the system's behavior. The contents of the matching templates, as well as the actions and some of the extra data, are the subject
+    of evolution.
 
 
-  The fun thing about this algorithm, which is really a whole family of algorithms), is that it takes Genetic Algorithms from an optimization
-  algorithm to something that reacts to an environment. I find this a fascinating transformation.
+    The fun thing about this algorithm, which is really a whole family of algorithms), is that it takes Genetic Algorithms from an optimization
+    algorithm to something that reacts to an environment. I find this a fascinating transformation.
 
 * Condensed Probability Tables- This is a case where a technique that was not feasible when it was invented (due to memory constraints) is now
   easily useable and very fast. It essentially precomputes a table used to sample from a certain discrete probability distribution.
