@@ -1,0 +1,14 @@
+
+
+permutation encodings-
+  2d points, 3d points, real and int, how to turn to permutation
+  wavelet tree encoding
+  uses
+
+
+my road through programming-
+  java and oop, functional, structured
+
+
+post about GJK - a really beautiful algorithm
+http://package.elm-lang.org/packages/zaidan/elm-collision/latest
