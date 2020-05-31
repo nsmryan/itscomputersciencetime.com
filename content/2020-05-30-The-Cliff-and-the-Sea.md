@@ -1,4 +1,9 @@
-# The Cliff and the Sea
++++
+title = "The Cliff and the Sea"
+[taxonomies]
+categories = ["Software", "Software Complexity"]
++++
+
 This post describes a pattern I have observed in software when there is a high cost for a small thing on one hand (the cliff),
 and a small cost to a larger number of things on the other (the sea).
 

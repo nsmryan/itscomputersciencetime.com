@@ -1,4 +1,8 @@
-# Thoughts on Complexity in Software
++++
+title = "Thoughts on Complexity in Software"
+[taxonomies]
+categories = ["C", "Software", "Software Complexity", "Flight Software"]
++++
 I've been thinking about software compexity recently, so this post is an attempt to articulate my current line of thought.
 
 In some sense, complexity is the currency of software. If you want something out of your software-

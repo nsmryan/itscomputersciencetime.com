@@ -1,4 +1,8 @@
-# Intcode in Forth
++++
+title = "Intcode in Forth"
+[taxonomies]
+categories = ["Software", "forth"]
++++
 Anyone who participated in Advent of Code 2019 has at least a partially complete intcode computer.
 This is a simple model of a computer with a few instructions, address modes, and a concept of input and ouput, which is then used to solve
 puzzles by writing programs for it to execute in the latest advent days.

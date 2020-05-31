@@ -1,4 +1,8 @@
-# A Rust Gotcha
++++
+title = "A Rust Gotcha"
+[taxonomies]
+categories = ["Software", "Rust", "Software Complexity"]
++++
 I ran into a bit of a gotcha in Rust the other week, which really confused me.  
 I only realized what was happening because I had run into the same problem when I was newer to Rust.
 
