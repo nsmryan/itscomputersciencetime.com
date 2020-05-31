@@ -27,7 +27,7 @@ enum ExampleEnum {
 fn main() {
     using ExampleEnum::*;
 
-    let value ExampleEnum::A;
+    let value = ExampleEnum::A;
 
     match value {
         A => println!("A"),
