@@ -9,8 +9,7 @@ puzzles by writing programs for it to execute in the latest advent days.
 This post is about a complete implementation of this [computer in the Forth programming language](https://github.com/nsmryan/advent_2019_forth).
 
 
-This was a journey for me in craftsmanship in programming, growing as a Forth programming, learning how tools influence our thinking,
-and in craftsmanship in software. This post is a fairly long, somewhat unorganized group of notes on different aspects of this project.
+This was a journey for me in craftsmanship in programming, growing as a Forth programming, and learning how tools influence our thinking. This post is a fairly long, somewhat unorganized group of notes on different aspects of this project.
 
 
 ## Background
