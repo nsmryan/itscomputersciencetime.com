@@ -27,15 +27,14 @@ mental model to continue reasoning about its behavior. The great thing about sim
 the best mental model of all- the software itself.
 
 
-This model is not perfect (the machine does not execute exactly as you think it does) but its about as close as you can come to a complete model.
+This model is not perfect (the machine does not execute exactly as you think it does, or even the same way in each execution) but its about as close as you can come to a complete model.
 However, simplicity alone does not appear to be enough. Complexity is something like information in information theory- its the underlying 'size'
 of the thing, a minimum bound beyond which a concept cannot be compressed. This is a Kolmogorav style information entropy,
 where the actual size is not computable in general. You never know when you have reached the minimal complexity, and you probably never reach it in practice.
 Its something to strive for but not something to arrive at.
 
 
-This idea leads me to see software has having a hidden measure behind the lines of code (correlated to their number, but not defined by it),
-and that is the complexity that we are managing. Simplicity can get you very far, and it is a tool that should be in your mind, but if you are going to manage software
+This idea leads me to see software has having a hidden measure behind the lines of code (correlated to their number, but not defined by it), and that is the complexity that we are managing. Simplicity can get you very far, and it is a tool that should be in your mind, but if you are going to manage software
 consider the underlying complexity within it and apply techniques, like simplicity, to organize it.
 
 
