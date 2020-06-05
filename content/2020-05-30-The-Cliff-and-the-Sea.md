@@ -44,7 +44,7 @@ of some particular aspect of my application, and suddenly my small step turns ou
 off a cliff into a world of additional work. Sometimes, this step lands me into the sea.
 
 ## The Sea
-The sea, on the other hand, is when you have no highly abstracted, highly specialized code.
+The sea, on the other hand, is when you have to make many small decisions that accumulate into a large amount of work. This is usually when there is no highly abstracted, highly specialized code, but rather low level APIs or many functions at a simlar level of abstraction.
 
 
 Rather you might have many options on what to do, a large API, a large number of operations possible at any time
