@@ -4,7 +4,7 @@ title = "C Error Handling"
 categories = ["C", "API"]
 +++
 # C API Error Handling
-This post is some notes on C API error handling design.
+This post has some notes on C API error handling design.
 
 
 Its not intended to be comprehensive, but rather its more a record of some
