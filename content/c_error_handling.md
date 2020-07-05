@@ -1,3 +1,8 @@
++++
+title = "C Error Handling"
+[taxonomies]
+categories = ["C", "API"]
++++
 # C API Error Handling
 This post is some notes on C API error handling design.
 
