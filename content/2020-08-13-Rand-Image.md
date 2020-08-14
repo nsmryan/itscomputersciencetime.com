@@ -208,6 +208,11 @@ help as possible, so I don't mind the strictness one bit. I did have to add
 "-Wno-cast-function-type" due to a function cast in swill, but no big deal.
 
 
+There are other good flags available, but this is the short list that I can keep
+in my head. In particular, I didn't use any sanitizers, which is something I'm
+interested in using more of.
+
+
 I didn't enable "-O0" for release builds in this case, mostly to make them
 different from debug builds, but that is common practice at work- correctness
 is more important then throughput as long as you meet your latency requirements.
