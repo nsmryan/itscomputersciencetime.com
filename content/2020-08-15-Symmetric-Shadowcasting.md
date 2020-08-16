@@ -26,10 +26,14 @@ The Rust version is almost the same, using [num-rational](https://crates.io/crat
 as its only dependency  as Rust does not have rationals as part of its standard library.
 
 ### Types
-The Python version does not have to specify types for positions.
-I considered making the positions generic, using
-[num-traits](https://docs.rs/num-traits/0.2.12/num_traits/),
-but I figured left it as a pair of isize instead, at least for now.
+The Python version does not have to specify types for positions,
+or anything else. Rust is much more explicit, and forces you to
+make some choices.
+
+
+For the positions, I considered making them generic, using
+[num-traits](https://docs.rs/num-traits/0.2.12/num_traits/).
+I left it as a pair of isize instead, at least for now.
 This makes the code a little simpler, if less generic, and makes
 the user cast to a from this type. However, at least it
 does not require a dependency.
@@ -78,9 +82,23 @@ vector of vectors Vec<Vec<isize>>, and a list of visible
 positions Vec<Pos>. The mark\_visible function simply takes
 the 'visible' vector and pushes positions to it.
 
+I did run into something I didn't expect, which was that at first I
+had the compute\_fov take closures as owning, instead of 
+"&mut". This caused ownership issues where I was using the
+functions multiple times in a loop, but they are "used up"
+in a previous iteration of the loop. I was copying
+[pathfinding](https://docs.rs/pathfinding/2.0.4/pathfinding/)'s
+API, so I didn't expect to run into a problem.
+
 
 ### Testing
 I added tests cases for the examples given in the tutorial. This
 works quite well, and it gave me a great deal of confidence being
 able to run the tests frequently.
+
+
+### Conclusion
+This was a fun project. Perhaps it might be useful, but if 
+nothing else it is gratefying to post a crate on
+[crates.io](crates.io).
 
