@@ -8,6 +8,7 @@ languages. Each language is like a different material or
 technique, and feelings different.
 
 
+## C
 C is strange- it is not a pure, mathematical artifact. It is
 not minimal with no syntax, and yet it is much simpler then
 many languages. It is an engineering artifact rather than
@@ -51,7 +52,12 @@ it is correct, but it has a chance to be as correct
 I ever get in C.
 
 
+C can quickly become a tarpit. This is true of other languages
+too, certainly, but I find that C is frequently error prone
+and requires a great discipline and restraint to make
+something robust.
 
+# Python
 Python is very much like legos- its easy to snap things together,
 but when they get complex its quite hard to tell if they fit
 together. Also, if you want to restructure something large,
