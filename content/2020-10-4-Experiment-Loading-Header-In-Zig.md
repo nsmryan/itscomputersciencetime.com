@@ -3,6 +3,7 @@ title = "Loading C Headers with Zig"
 [taxonomies]
 categories = ["Zig", "Language", "C", "Embedded"]
 +++
+# C Headers in Zig
 I've been continuing my experimentation with the Zig programming language, and this post is an 
 update on one of the things I would love to be able to do with Zig. One of the big differences
 between Zig and C is that Zig can inspect types at compile time, inspecting enum variants, 
