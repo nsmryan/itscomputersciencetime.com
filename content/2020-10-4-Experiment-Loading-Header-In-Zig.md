@@ -1,5 +1,5 @@
 +++
-title = "Experiments in Loading Headers with Zig"
+title = "Loading C Headers with Zig"
 [taxonomies]
 categories = ["Zig", "Language", "C", "Embedded"]
 +++
