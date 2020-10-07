@@ -1,3 +1,8 @@
++++
+title = "MsgPack in Zig"
+[taxonomies]
+categories = ["zig", "serialize", "binary"]
++++
 # MsgPack in Zig
 [This repository](https://github.com/nsmryan/zig_msgpack) contains an attempt to implement
 the [MsgPack](https://github.com/msgpack/msgpack) serialization 
