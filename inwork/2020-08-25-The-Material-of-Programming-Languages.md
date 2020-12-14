@@ -5,18 +5,19 @@ categories = ["Zig", "Language", "C", "Lisp", "Forth"]
 +++
 This is a weird post about the feeling of programming in different
 languages. Each language is like a different material or 
-technique, and feelings different.
+technique, and feelings different. I will be exploring how
+certain languages feel to me when viewed as a material.
 
 
 ## C
 C is strange- it is not a pure, mathematical artifact. It is
 not minimal with no syntax, and yet it is much simpler then
 many languages. It is an engineering artifact rather than
-a paper.
+a research paper.
 
-C feel, in the systems that I use in practice, not like the
+C feels, in the systems that I use in practice, not like the
 very purest stuff of the universe, but rather the bedrock of
-the world. It not pure, but its practical and immediate.
+the earth. It not pure, but its practical and immediate.
 
 C can be very precise, but it is also full of small holes. 
 Undefined behavior, memory corruption, etc, requires
@@ -37,10 +38,6 @@ perhaps sizeof in there. Its hard, manual, and error prone,
 and ultimately I would not do it in code that I care about.
 
 
-My personal experience with C is that I have spent perhaps
-more of my professional career with it than any other language-
-even my C++ is really just C with a couple niceties.
-
 Sometimes when I write C for embedded systems, I feel like
 I can write out a concept in straight lines, with each
 piece a single stroke of a brush. It is a rare and
@@ -51,11 +48,20 @@ almost can't help but be simple. This doesn't mean
 it is correct, but it has a chance to be as correct
 I ever get in C.
 
+People sometimes refer to C code as a shalpel- precise but
+easy to get a bad cut. I think C code written this way,
+as single strokes of a brush, feels more like clockwork- 
+its delicate, and tiny inprefections could create a mess,
+but when it works it works beautifully, sometimes for months
+or years, just as it did when you set it into motion.
+
 
 C can quickly become a tarpit. This is true of other languages
 too, certainly, but I find that C is frequently error prone
 and requires a great discipline and restraint to make
-something robust.
+something robust. Of all languages, I think I've reached the
+highest level of mastery over C, and I'm able to build larger
+and more structured C programs than I am in other languages.
 
 # Python
 Python is very much like legos- its easy to snap things together,
