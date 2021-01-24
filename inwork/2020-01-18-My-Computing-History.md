@@ -68,6 +68,14 @@ here and there such as a language for describing optimization problems.
 ### Java
 I programmed a lot of Java, did assignments, games, etc, as one does in a CS degree.
 I did programming competitions with a team, and later lead the team as a graduate student.
+
+
+I wrote some genetic algorithms, a toy distributed "island" genetic algorithm program to
+solve a simplified version of the game Lemmings described in
+"Scripting the Game of Lemmings with a Genetic Algorithm". I'm sure I wrote many other
+programs that I no longer remember.
+
+
 What I recall from Java was that I liked learning to program and learning all of its ideas,
 but that eventually I started to struggle to express increasingly complex concepts in
 terms of inheritence heirarchies as I had been taught. No arrangement of classes ever
@@ -271,7 +279,25 @@ determined enough to use new techniques in my area of work and see the
 fruits of that labor above the tools I already had.
 
 #### Lessons Learned and Moving On
-Haskell taught me many things TBD
+Haskell did teach me things. It taught me about modeling with algebraic data
+types, which now are a core means of thinking for me, the importance
+of pure code vs effectful code and the management of effects, program
+flow following the induction reduction of data structures, and about thinking about
+what was behind the program, what mathematical underpinning might exist
+that ties it to other concepts or frames it in a manner that would
+otherwise not be clear from its details.
+
+
+These lessons still pervade my programs, where I factor my C, Rust, Forth, etc
+into pure and impure parts, where I consider the algebraic structure of
+my data, the variance of my types, the composability of concepts. I 
+expect I don't do this nearly as much as someone steeped in Haskell,
+but its become part of my thinking. I don't know that I've ever
+come up with any amazing revalations from this, but handling
+state and the control of purity vs effects is a pervasion concept
+in programming and is made explicit in Haskell in sharp relief
+against other languages.
+
 
 At some point I went looking for other languages. Ones that would give
 me control, that might apply to my embedded programming world, that
@@ -279,13 +305,37 @@ I might really finish projects with. I was ready to descend into Rust.
 
 ### Rust
 
-
 ### C
 I have programmed in C++ for a good part of my career, nearing 10 years.
 Most of this time I used C++ like it was C with a couple convient extensions.
-At first I found C quite difficult, as you might expect. You need to be constantly
-on guard and constantly thinking about the location and layout of mmeory
-(at least in embedded systems), error codes and error handling.
+
+
+During this time I learned about programming within bounded, known systems
+that you encounter in embedded software. At least, when you do embedded
+for custom, unique hardware that takes years of development as we do at
+NASA. I learned about Realtime Operating Systems (RTOSs), deterministic
+scheduling, how to use semaphores, queues, mutexes, interrupts, etc.
+Nowadays I miss the RTOS scheduler when I'm in Linux or Windows (even
+Linux with PREEMPT\_RT). The VxWorks APIs are so much simplier then POSIX,
+more limited, more specific, and more deterministic. Its actually a pretty
+nice environment in some ways.
+
+
+#### Settling In
+Eventually I was programming my own flight software, and I had some choice in
+its architecture and technology choices. At this point I took the flight
+software system, written in C++, and converted it all over to C. This was the
+start of really learning C, its standards, restricting myself to C everywhere.
+I found that I liked my software much more, I trusted it more, and I felt more
+at ease knowing that it was simple and consistent everywhere. I won't spend a lot
+of time trying to justify this here except to say that I entered a C period
+which I am, at the time of writing, still largely within.
+
+
+Returning to the very beginning, I found C quite difficult, as you might expect.
+You need to be constantly on guard and constantly thinking about the location
+and layout of memory (at least in embedded systems), error codes and error
+handling. Its manual and dangerous, and gives you only a handful of tools.
 
 
 Eventually however, I learned to keep much of this in mind at all times, so
@@ -300,7 +350,11 @@ or years without errors.
 
 This is at once a level of thinking where the abstraction of Haskell is
 unimaginable, while providing a level of precision that is in turn
-unthinkable in, say, Python. 
+unthinkable in, say, Python. The limited means of abstraction means that
+the number of actual combinations that occur in my programs is fairly limited,
+and this leverages simplicity in a way that I haven't seen in other languages
+(except in Forth, where C seems terribly complex).
+
 
 C has many flaws, and does not provide means of escaping its flaws.
 It has great subtly and does present a number of significant challenges.
@@ -310,6 +364,15 @@ all of the great deal of manual work needed to make reliable C. The result
 is that these programs use the same memory, the same queues, the same functions
 again and again, and check for errors everywhere, and have relatively few defects.
 
+
+I do wonder whether I should be doing something else. Should I use more formal
+methods, should I use Ada? What about Rust? Am I locked into old patterns that
+require too much work and provide too little value, are the shiny new
+tools not hardened enough for serious engineering? Are the hardened
+tools not the ones I'm using? Am I missing the right place in the landscape
+and wasting my energy? My explorations have shown me other options out there,
+but for now I'm still in the land of C, and I am staying there for flight
+software for now.
 
 
 ### The Retreat
@@ -339,10 +402,15 @@ of trying and failing and was retreating into tried and true tool.
 
 
 Part of this retreat was into Software Engineering, into practice. I documented
-these libraries, wrote automated testing, included build, test, and use instructions,
-I used them in mulitple places. This can be tricky in C, especially in the
-subset that I use, which makes very little or no use of macros, function pointers,
-and dynamic memory.
+these libraries, wrote automated testing, static analysis, including build,
+test, and use instructions, I used them in mulitple places. This can be tricky
+in C, especially in the subset that I use, which makes very little or no use of
+macros, function pointers, and dynamic memory, but it is possible for the
+problems I wanted to solve.
+
+
+I have gotten real reuse from this. Software in C can be used in flight and in the ground,
+in class B and below if developed properly, it TBD
 
 
 While this was a useful strategy for a time, C really shines when its level of
@@ -367,7 +435,11 @@ Some of these libraries, not listing libraries I wrote that are owned by NASA:
   that you can move between when you start to need more features.
 
 I rarely need a growing buffer, but there are several out there, often single
-header style.
+header style. Instead I usually use a queue implementation that we wrote at work
+which is OS-independent (designed with RTOSs in mind) which is a simple shim over
+the OS. I'm not looking for the greatest througput here, I'm looking for determinism
+and simplicity, so there are no lockfree queues or anything fancy, just basic
+concurrency primitives.
 
 
 Even with all of this, writing in C is a little exhausting for some problems, and
@@ -376,6 +448,9 @@ a subset of problems. This is when I started to look around at scripting languag
 wondering what I should be using. Python is a strong choice for many reasons, but
 I wanted to open up the search to whatever fit my needs. This is when I started
 to learn TCL.
+
+
+### Zig
 
 
 ### TCL
@@ -435,6 +510,7 @@ fast, it does not seem to have a community structured in the more 'modern' way
 that, say, Rust has.
 
 
+## The Future
 ### Lisp
 I've explored many areas of the programming landscape, but I've always stayed
 away from Lisp. Its a whole land outside of the static type direction I went
