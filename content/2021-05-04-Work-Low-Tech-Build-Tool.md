@@ -4,7 +4,7 @@ title = "Work- The Low Tech C Build Tool"
 categories = ["Language", "Programming", "C", "build", "libtcc", "tcc", "make"]
 +++
 It seems that every programmer eventually writes one of more of the following:
-a text editor, a ray tracer, a compilers, or a build system. The number of
+a text editor, a ray tracer, a compiler, or a build system. The number of
 build systems out there is almost a running joke in computing.
 
 
@@ -27,7 +27,7 @@ nothing fancy.
 I had recently discovering tcc, the tiny C compiler, which is
 pretty awesome for its size, speed, and the fact that it can be used as a
 library. I was especially interested in the idea of a C compiler as
-a simple library with only a handful of function. It seems like there
+a simple library with only a handful of functions. It seems like there
 are a lot of neat things one could do with this, and a build system is
 among them.
 
