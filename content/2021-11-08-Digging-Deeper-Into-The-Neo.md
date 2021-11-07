@@ -97,7 +97,7 @@ does not even have include guards or a "pragma once".
 
 ### syscall.c
 
-This file, os3k/syscall.c, seesm to place named sections into the elf file at fixed locations starting at
+This file, os3k/syscall.c, seems to place named sections into the elf file at fixed locations starting at
 0xA000 at 4 byte offsets, clearly building a table of function pointers.
 
 These functions seem to have to do with the built in functionality of the Neo. Clearing the screen, setting the cursor,
@@ -115,7 +115,7 @@ I expect somewhere we will use this to implement functions that vector through o
 Now we are getting into the C code a bit more with our header file.
 
 
-We start with some standard library includes, FILE typedeffed to void, and standard file descriptors. We seem
+We start with some standard library includes, FILE typedef to void, and standard file descriptors. We seem
 to be bootstrapping ourselves a C environment.
 
 This is followed by a cursor mode, a map of key codes, and a map of modifier keys.
@@ -129,7 +129,7 @@ MSG_MOD_SYNTHETIC may be some kind of user defined message, or just something to
 Next is a function that appears to be very important: ProcessMessage. This is not defined anywhere, and seems to be
 intended for implementation in the user's applet as a callback to handle messages. I think an 'extern' or comment
 might help make this clear.
-Anyway, it looks like you get the message id, a parameter as a uin32_t, and you return status by setting a status uin32_t.
+Anyway, it looks like you get the message id, a parameter as a uint32_t, and you return status by setting a status uint32_t.
 
 
 This is followed by some rasterization enum, system calls mostly about fonts and display, and then function prototypes.
@@ -138,7 +138,7 @@ BwProcessMessage is in there as well.
 
 
 We then get the AppletHeader_t structure that defines the header that all applets require. It looks to be naturally well
-packed, not requiring any __packed__ or pragma(pack) to remove padding.
+packed, not requiring any \_\_packed\_\_ or pragma(pack) to remove padding.
 
 As predicted, the linker script's definitions are available in C, extern declared as:
 ```C
