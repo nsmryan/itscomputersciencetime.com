@@ -48,7 +48,7 @@ almost can't help but be simple. This doesn't mean
 it is correct, but it has a chance to be as correct
 I ever get in C.
 
-People sometimes refer to C code as a shalpel- precise but
+People sometimes refer to C code as a scalpel- precise but
 easy to get a bad cut. I think C code written this way,
 as single strokes of a brush, feels more like clockwork- 
 its delicate, and tiny inprefections could create a mess,
@@ -63,7 +63,8 @@ something robust. Of all languages, I think I've reached the
 highest level of mastery over C, and I'm able to build larger
 and more structured C programs than I am in other languages.
 
-# Python
+
+## Python
 Python is very much like legos- its easy to snap things together,
 but when they get complex its quite hard to tell if they fit
 together. Also, if you want to restructure something large,
@@ -94,7 +95,7 @@ run a Python script, and for it to be incorporated
 into many tools and places.
 
 
-
+## Forth
 Forth has a very different feeling than any other language.
 I feel like a craftsperson, carefully cutting each problem
 into slices, building bespoke tools for each situation,
@@ -113,4 +114,6 @@ are injested, the program is running- it does not parse
 and compile separately. The remaining program text
 is avilable to the running program, so it can change
 how the text is read as it is compiled.
+
+## Haskell
 
