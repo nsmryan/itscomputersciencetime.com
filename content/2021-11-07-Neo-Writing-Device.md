@@ -10,6 +10,9 @@ power on, simple writing device. Its got a great keyboard, turns on fast,
 and can do almost nothing except write (although as well will see later,
 it is an embedded computer and can do much more).
 
+If you are interested in the community around these things, I know of
+https://www.flickr.com/groups/alphasmart/ and https://www.reddit.com/r/AlphaSmart/.
+
 
 There is plenty of information out there about getting these (they are no
 longer made by Alphasmart, but you can still get them pretty cheap), but less
