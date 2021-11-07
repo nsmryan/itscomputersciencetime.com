@@ -31,7 +31,6 @@ for the Neo. Lets start by looking around.
 ### Makefile
 
 A good place to start with new code is the build system. In this case we have a good ol' Makefile.
-        KEEP(*(.text.BwProcessMessage))
 
 This Makefile is only three lines. It defines some subdirectory paths, includes Makefile.common, and
 has a rule
