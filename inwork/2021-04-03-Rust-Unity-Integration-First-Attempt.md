@@ -4,12 +4,99 @@ title = "First Attempt at Rust/Unity Integration"
 categories = ["Language", "Programming", "Rust", "dll", "Unity", "c#", "ffi"]
 +++
 
+I haven't posted on this on this blog, by my brother and I have been developing
+a Roguelike game in Rust for the past few years. One of the goals is to have two
+ways to play the game- the tile version and the 3D version.
+
+The 3D version will be in Unity, so I have looked at ways to integrate a Rust program
+and Unity. This post is about my first attempt.
+
+
+This attempt was somewhat scattered- I was trying to figure out a lot of things at
+once. The concept was to build a DLL from the Rust code, and to call into it from
+C#. To this end, I did some basic C# FFI using examples from the internet.
+This was a while ago, but I thought I would post some code and notes from
+what I remember of the attempt.
+
+
+WARNING: This post is mostly just code snippits with notes. I wish now that I
+had taken more notes while I was doing this.
+
+Now I have moved on to a different approach inspired by using TCL at work where
+I will just serialize and deserialize single text strings using a custom but
+simple format.
+
+
+I don't plan on doing FFI unless I absolutely have to: it is a
+pain and often resulted in Unity crashing (once it calls into a DLL it can't
+stop a crash within the DLL). It was also somewhat of a pain to get
+Unity to know about the DLL, although once I had it working it was okay.
+
+
+## Structures
+
+One thing was the annotations to create structures with sequential and
+packed alignment, to prevent memory layout issues:
+```c#
+[StructLayout(LayoutKind.Sequential, Pack=0)]
+```
+I would have liked a way to avoid redeclaring types on both sides of the
+Rust/C# barrier, but I ended up either getting the layouts to be identical, or
+using JSON. I choice JSON because both sides had parsers and generators that
+would derive the required structures, and I did not want to do this by hand for
+every structure that needed to go between Rust and C#.
+
+For the map, I didn't want to use JSON, so I would declare the C# structure:
+```c#
+[StructLayout(LayoutKind.Sequential, Pack=0)]
+public struct Tile {
+    public bool blocked;
+    public bool block_sight;
+    public bool explored;
+    public TileType tile_type;
+    public Wall bottom_wall;
+    public Wall left_wall;
+    public byte chr;
+    public Surface surface;
+}
+```
+
+And the Rust:
+```rust
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+#[repr(C, packed)]
+pub struct Tile {
+    pub block_move: bool,
+    pub block_sight: bool,
+    pub explored: bool,
+    pub tile_type: TileType,
+    pub bottom_wall: Wall,
+    pub left_wall: Wall,
+    pub chr: u8,
+    pub surface: Surface,
+}
+```
+
+For other data, mostly simple messages describing to C# what was happening in
+the game, I found a JSON library called SimpleJSON that seemed to live up to
+its name:
 
 
 ```c#
 using SimpleJSON;
 ```
 
+And some C# to marshall data into C# from JSON (named msg_buf):
+```c#
+string msg_string = Marshal.PtrToStringAnsi(msg_buf);
+msg = JSON.Parse(msg_string);
+```
+At this point, msg is a C# structure filled out by SimpleJSON
+(using reflection I imagine- I didn't look much into it).
+
+## Enums
+
+For enums, I redeclared them on both sides like so:
 ```c#
 public enum Surface : byte {
     Floor,
@@ -27,66 +114,22 @@ pub enum Surface {
 }
 ```
 
-```c#
-[StructLayout(LayoutKind.Sequential, Pack=0)]
-public struct Tile {
-    public bool blocked;
-    public bool block_sight;
-    public bool explored;
-    public TileType tile_type;
-    public Wall bottom_wall;
-    public Wall left_wall;
-    public byte chr;
-    public Surface surface;
-}
-```
+## Functions
 
-```rust
-#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
-#[repr(C, packed)]
-pub struct Tile {
-    pub block_move: bool,
-    pub block_sight: bool,
-    pub explored: bool,
-    pub tile_type: TileType,
-    pub bottom_wall: Wall,
-    pub left_wall: Wall,
-    pub chr: u8,
-    pub surface: Surface,
-}
-```
+To call into the DLL, I found that you could annotate functions with the
+DLL they come from, and the calling convention to use like so:
 
 ```c#
-public struct GameRepr {
-    public const int MSG_BUF_LEN = 1024;
-
-
-    public IntPtr game;
-    public Map map;
-    public Dictionary<ulong, GameObject> entities;
-    public IntPtr msg_buf;
-
     [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
     public unsafe static extern IntPtr create_game(ulong seed, byte[] config_name, byte[] map_name);
+```
 
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern void destroy_game(IntPtr game);
+Note the 'unsafe' annotation, extern, and the use of an IntPtr. I also passed around a lot of byte
+arrays to place JSON.
 
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern void step_game(IntPtr game, byte[] input_action);
 
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern void read_message(IntPtr game, IntPtr msg_ptr, IntPtr msg_len);
-
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern IntPtr read_map(IntPtr game, IntPtr width, IntPtr height);
-
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern IntPtr alloc_buffer(int buf_len);
-
-    [DllImport("rust_roguelike", CallingConvention=CallingConvention.Cdecl)]
-    public unsafe static extern void free_buffer(IntPtr ptr, int buf_len);
-
+I also had to get string into a form usable by Rust:
+```c#
     public static byte[] ToRustString(String str) {
         byte[] bytes = new byte[str.Length + 1];
         System.Text.Encoding.ASCII.GetBytes(str, 0, str.Length, bytes, 0);
@@ -94,38 +137,35 @@ public struct GameRepr {
     }
 ```
 
+A random example of determining the size of a type:
 ```c#
 int tileSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(Tile));
 ```
 
-```c#
-        JSONNode msg = null;
-
-        if (msg_len > 0) {
-            string msg_string = Marshal.PtrToStringAnsi(msg_buf);
-            //string msg_string = System.Text.Encoding.ASCII.GetString(msg_bytes, 0, msg_bytes.Length);
-            msg = JSON.Parse(msg_string);
-        }
-```
-
+From the Rust side I wrote some wrapper functions to start the game up:
 ```rust
 #[no_mangle]
 pub extern "C" fn create_game(seed: u64, config_name: *mut i8, map_name: *mut i8) -> *mut Game {
 ```
 
+and to read a generated by the game (this is how the game runs- it generates messages and
+processes them):
 ```rust
 #[no_mangle]
 pub extern "C" fn read_message(game_ptr: *mut Game, msg_ptr: *mut u8, msg_len: *mut i32) {
 ```
 
+I also did some work to fill out data structures that were not passed as JSON, such as the map.
+
+When receiving a game object that was provided by Unity, I had to rebox it:
 ```rust
-    let mut tile_buf = std::ptr::null_mut();
     unsafe {
         game = Box::from_raw(game_ptr);
 ```
-        
+And then forget it when it was done:
         
 ```rust
-    mem::forget(game);
+        mem::forget(game);
+    }
 ```
 

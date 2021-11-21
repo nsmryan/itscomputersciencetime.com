@@ -28,18 +28,19 @@ much longer).
 
 
 ## Approaches
-I've used several different approaches over time for this kind of task.
-I've worked with someone that uses all MatLab scripts, I've written my
-software in Simulink so a control theorist could integrate with it
-directly, I've work in pure C for everything, and I've work with
-frameworks with their own configuration and scriptings (Ruby in one,
-a limited custom language in anther). I've also done some scripting in
-Python, and certainly written code in many other languages for
-processing, creating configurations, visuals, etc.
+
+I've used several different approaches over time for this kind of task.  I've
+worked with someone that uses all MatLab scripts, I've written my software in
+Simulink so a control theorist could integrate their algorithms with it
+directly, I've work in pure C for everything, and I've work with frameworks
+with their own configuration and scriptings (Ruby in one, a limited custom
+language in anther). I've also done scripting in Python, and certainly
+written code in many other languages for processing, creating configurations,
+visuals, etc.
 
 
 Currently I am usually using a mixture of C in a Unix environment 
-(under Windows my necessity, so MSYS2 and sometimes Cygwin) for
+(under Windows by necessity, so MSYS2 and sometimes Cygwin) for
 most tasks, using a variety of small libraries to boost productivity
 of my own design or liberally licensed open source. For GUIs
 I often use LabWindows because it is an excellent environment,
@@ -58,20 +59,34 @@ very often has an impedance mismatch between the language and
 memory/hardware, which is a constant barrier to cross. Other
 languages that do not present this barrier would be Forth, Zig,
 and to some extent Rust (although that is a somewhat lacking capability
-for Rust in my current experience). I don't like having additional
-moving parts, so removing this barrier is important, the lack of
-garbage collection, and just in practice the fact that 3rd party
-hardware often has a C interface that would need to be wrapped to
-use in another language, leads me to use C in most cases.
+for Rust in my current experience).
+
+I don't like having additional moving parts, so removing this barrier is
+important, the lack of garbage collection, and just in practice the fact that
+3rd party hardware often has a C interface that would need to be wrapped to use
+in another language, leads me to use C in most cases.
+
 
 ## Limitations
+
 However, this is not ideal in several ways. I can make GUIs with LabWindows,
 and there are distribution options, but you ultimately need the NI CVI runtime
 installed to use them. This is not a deal breaker. The worse problem is that
 you need a license to develop with the environment, and only a few people I 
-work with have a license. The other significant problem is that while C
-is good when it matches the level of your problem, when you have larger
-problems, or goals that change quickly, it can be a burden.
+work with have a license.
+
+I have also experimented with a more 'direct' approach to GUIs- RXI's microui,
+with a custom SDL2 backend and the 'layout' library for laying out the screen.
+This works wonderfully- for some reason I find this kind of program much more
+fun to write then similar programs using a framework- but I have to admit
+its more of a developer tool setup then a productive one for non-software
+people. The GUIs are nice in a way, and responsive, but limited and with
+a certain roughness.
+
+
+The other significant problem with C is that while C is good when it matches
+the level of your problem, when you have larger problems, or goals that change
+quickly, it can be a burden.
 
 
 There is a flexibility problem as well- if you have multiple devices, do you
@@ -86,20 +101,29 @@ better way then following this path much further.
 
 
 ## Desirements
-To try to get at what I really want here.
+
+I will try to get at what I really want here.
+
+
 I want to have a 'preferred' set of tools for when I have control over my
-environment, while being flexible between projects where I have only partial
-control.
+software choices, while being flexible between projects where I have only
+partial control. This means that I should be able to throw away all or
+parts of my work when it is not applicable- it cannot be completely
+monolithic.
 
 
-I want to talk to hardware directly,
-to encode binary protocols, use 3rd party hardware and APIs, and talk the
-native language of my own embedded devices (C).
+I want to talk to hardware directly, to encode binary protocols, use 3rd party
+hardware and APIs, and talk the native language of my own embedded devices (C).
 
 
 I want to make GUIs and command line tools, sometimes short running,
 sometimes long running. Sometimes these need to do some statistics, create
 various images, and provide live 'quicklook' visuals.
+
+
+I want to be able to do some level of scripting for my systems. Ideally
+the scripts would be simple and the whole system wouldn't require much
+in the way of deployment or dependencies.
 
 
 I want to be able to add pieces to these systems, and yet to have it
@@ -109,27 +133,29 @@ The pieces would ideally be disposable. I'm not sure what parts are not-
 perhaps some kind of message passing core, or perhaps literally nothing.
 
 
-
 I don't want to rely on anything too large, or that locks me into a language or
 OS ecosystem, as I often need to switch technologies on different projects.
 
 
-I want software that is reliable- I want it to work the same in 6 months, and
-after years.  I want to be able to establish my development environment on
+I want software that is reliable- I want it to work the same in 6 months, or
+after years. I want to be able to establish my development environment on
 different systems, Linux and Windows. I also want to be able to distribute my
 software to other people's computers, as well as lab computers, without a huge
-ordeal, licenses, or even, ideally, separate runtimes. This is all just ideals,
-but it has influenced my choices recently- if I program in plain C, often with
-cross-platform libraries, I feel like I can trust my software to a certain
-extent. If I need an extended environment I take on the LabWindows requirement,
-and get a "good enough" setup, although lacking flexibility and speed of
-change, and accessability to my collegues except 1. other software engineers or
-2. through GUIs.
+ordeal, licenses, or even, ideally, separate runtimes.
+
+
+This is all just ideals, but it has influenced my choices recently- if I
+program in plain C, often with cross-platform libraries, I feel like I can
+trust my software to a certain extent. If I need an extended environment I take
+on the LabWindows requirement, and get a "good enough" setup, although lacking
+flexibility and speed of change, and accessability to my collegues except 1.
+other software engineers or 2. through GUIs.
 
 
 Python approach, talisman approach, trying to generalize
 
 ## Some Reusable Pieces
+
 Limit monitoring with red/yellow/green/blue limits. This does not
 need to display limit information, or even act on it, as long as
 another component can do this. My current plan for this would be to 
@@ -139,3 +165,4 @@ software.
 
 Another piece is some kind of current and historical data retrieval for
 display and analysis.
+
