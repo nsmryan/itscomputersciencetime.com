@@ -6,12 +6,11 @@ categories = ["C", "nasa", "flightsoftware", "embedded"]
 
 One of my long term, occasional hobby projects is a piece of software
 called [protoflight](https://github.com/nsmryan/protoflight). This is
-a very much a work in progress, but it has reached a certain level of
-functionality, and I don't work on it much, so I wanted to mention it in this
-blog in case I don't get back to it for a long time.
+a very much a work in progress, and something I only spend small amounts of time
+on very rarely, so I wanted to post about it.
 
 
-This is a very small software system modeled off of flight software systems
+This is a very small, toy software system modeled off of flight software systems
 that I have encountered while at NASA. The main inspirations are [CFS](https://github.com/nasa/cFS),
 and the flight software system I have been working on at Langley Research
 Center, with smaller inspiration from other systems.
@@ -19,12 +18,10 @@ Center, with smaller inspiration from other systems.
 
 The github README for protoflight gives an overview of the project, but the
 main idea is to develop a tiny system with the core concepts of a flight
-software system. This is partially an exploration of designs for me, partially
-an attempt to understand the core of such systems, and perhaps even a resource
-for others that are overwhelmed by such large systems as CFS.  For a sense of
-scale- protoflight as a whole is likely to remain smaller then many single CFS
-apps, and at least an order of magnitude smaller then CFS itself, or even CFE
-(or really even just OSAL).
+software system.  I wanted to explore this space while keeping things as small
+as possible.  For a sense of scale- protoflight as a whole is likely to remain
+smaller then many single CFS apps, and at least an order of magnitude smaller
+then CFS itself, or even CFE (or really even just OSAL).
 
 
 I like the idea of this software as a model of a real system. One could study
