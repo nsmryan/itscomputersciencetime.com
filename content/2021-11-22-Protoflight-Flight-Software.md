@@ -7,10 +7,12 @@ categories = ["C", "nasa", "flightsoftware", "embedded"]
 One of my long term, occasional hobby projects is a piece of software
 called [protoflight](https://github.com/nsmryan/protoflight). This is
 a very much a work in progress, and something I only spend small amounts of time
-on very rarely, so I wanted to post about it.
+on very rarely, so I wanted to post about it. Writing blog posts on these projects
+helps me feel like they are not wasted effort. Its like putting the project somewhere
+as a record while I do other projects.
 
 
-This is a very small, toy software system modeled off of flight software systems
+Protoflight is a very small, toy software system modeled off of flight software systems
 that I have encountered while at NASA. The main inspirations are [CFS](https://github.com/nasa/cFS),
 and the flight software system I have been working on at Langley Research
 Center, with smaller inspiration from other systems.
@@ -21,13 +23,16 @@ main idea is to develop a tiny system with the core concepts of a flight
 software system.  I wanted to explore this space while keeping things as small
 as possible.  For a sense of scale- protoflight as a whole is likely to remain
 smaller then many single CFS apps, and at least an order of magnitude smaller
-then CFS itself, or even CFE (or really even just OSAL).
+then CFS itself, or even CFE (or even just OSAL, and maybe even one module within
+OSAL).
 
 
 I like the idea of this software as a model of a real system. One could study
 such a small system, modify it, add new features, as an exploration of a design
-concept. You could also use it as a way to understand a practice that is not
-necessarily obvious such as how to do unit tests in embedded systems, how to
+concept. The small size allows an individual to understand the entire project, and
+use it as a way to understand or explore a practice that is not
+necessarily obvious. A larger system's interia prevents this kind of exploration,
+and muddies the core concepts such as how to do unit tests in embedded systems, how to
 do a small OS abstraction layer, how to implement common mechanisms in these
 systems such as a message bus, packet headers, fault detection, etc.
 
@@ -50,7 +55,7 @@ but I may do something much simpler to keep with the small size feeling.
 
 There is a great deal of work to do here. I hope to occasionlly spend a few
 hours on it, and eventually to have a very well tested, minimal, but high
-quality system.
+quality system
 
 
 If you are interested, feel free to check out the README, read through the code,
