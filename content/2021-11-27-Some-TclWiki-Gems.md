@@ -35,7 +35,7 @@ proc thingy name {proc $name args "namespace eval $name \$args"}
 Which creates a namespace in which to store variables and functions.
 
 
-[Cparser](https://wiki.tcl-lang.org/page/Parsing+C+Types is a small script that constructs an sqlite
+[Cparser](https://wiki.tcl-lang.org/page/Parsing+C+Types) is a small script that constructs an sqlite
 database from C headers. It does depend on packages called yeti and ylex.
 
 I haven't used this, but its kind of interesting that the entire project is simple enough to
