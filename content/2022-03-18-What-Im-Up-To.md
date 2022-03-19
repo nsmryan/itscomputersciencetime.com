@@ -44,7 +44,7 @@ handled and all the concepts implemented together).
 This book really is an amazing resource and worth checking out.
 
 
-https://en.algorithmica.org/hpc/
+[Algorithmica HPC](https://en.algorithmica.org/hpc/)
 
 
 ## RISC-V Unprivileged Spec
@@ -54,7 +54,7 @@ using a RISC-V softcore processor at work and enjoying the experience very much.
 
 
 I am drawn to the simplicity of the ISA, and the granularity of the specification- 
-I think programming languages could use this kind of layering and combinging extensions
+I think programming languages could use this kind of layering and combining extensions
 to allow a tradeoff in simplicity and static analysis while allowing more freedom when desired.
 
 
@@ -64,16 +64,14 @@ business even in the simple concept of memory use, sacrificing simplicity and de
 performance. They may well be right to do so, but I still have a hard time understanding these
 sections, unlike the rest of the spec.
 
-https://riscv.org/technical/specifications/
+[RISC-V Specs](https://riscv.org/technical/specifications/)
 
 ## Human Resource Machine
 I played through Human Resource Machine. Its a great, fun programming game with a
 sense of humor. I did beat all the puzzles, but I stopped trying to optimized
 as much after the first few and focused on finishing them.
 
-```
-https://tomorrowcorporation.com/humanresourcemachine
-```
+[Human Resource Machine](https://tomorrowcorporation.com/humanresourcemachine)
 
 I also played Little Inferno a while back, which has a very similar style although
 it is not a programming game. Given this companies track record I would consider
@@ -84,7 +82,7 @@ of Human Resource Machine.
 I played through SpacePlan, which is a very fun and visually interesting idle game.
 It doesn't take long to play through, and if you like idle games at all I recommend it.
 
-http://spaceplan.click/
+[SpacePlan](http://spaceplan.click/)
 
 I enjoy the simple visuals of the game, and the way that these kinds of games often
 change as you play them. This game changes your plan and goals again and again in
