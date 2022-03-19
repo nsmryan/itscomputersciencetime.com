@@ -88,6 +88,18 @@ I enjoy the simple visuals of the game, and the way that these kinds of games of
 change as you play them. This game changes your plan and goals again and again in
 fun and surprising ways.
 
+## The Witcher Series
+
+I'm through the first three books of the Witcher series. I enjoyed the first game so I wanted
+to check out the books as well. They are good solid fantasy mixed with a little science, and
+with enough mystery, characters, and plot to keep me engauged. I enjoy the slow unvealing of the
+world, the plotting an machinations, and even the misinformation given to the reader. This all
+contributes to a 
+
+
+Overall I just like the Witcher himself.
+
+
 ## Others
 
 I've been on a little bit of a programming game kick, so I have also started TIS-100. This may
