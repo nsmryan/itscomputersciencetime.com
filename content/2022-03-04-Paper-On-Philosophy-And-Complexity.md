@@ -7,7 +7,7 @@ I want to post about things that I am reading as a record and a way to point out
 With that in mind, I read a really awesome paper the other day about philosophy and computational complexity theory.
 
 
-The paper is called "(Why Philosophers Should Care about Computational Complexity)[Why Philosophers Should Care about Computational Complexity]".
+The paper is called [Why Philosophers Should Care about Computational Complexity](Why Philosophers Should Care about Computational Complexity).
 It is a really fascinating paper covering a variety of applications of computational complexity to
 philosophy, asking for more communication between these fields.
 
