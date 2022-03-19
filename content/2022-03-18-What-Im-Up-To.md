@@ -66,6 +66,32 @@ sections, unlike the rest of the spec.
 
 [RISC-V Specs](https://riscv.org/technical/specifications/)
 
+
+## ATMega 328p User's Manual
+
+A while back I read through the user's manual for the microcontroller in the Arduino Uno.
+I've had Unos for a long time, but I never bothered to read through this manual. In an 
+effort to be more throughout and disciplined in my interests, I decided to read through this
+document cover-to-cover.
+
+
+I didn't understand everything, certainly, especially not the electrical parts, but I read
+through them anyway.
+
+
+This was an interested experience, and I wish I had taken more notes. I've been doing better
+at keeping my own knowledge database for this kind of information, but at the time I wasn't
+keeping up with it.
+
+
+What I rememeber is a lot of interesting hardware details, a lot of details on when certain
+conditions apply and combinations of settings with different, subtle effects. I found
+the boot process and the programming process especially interesting. This is the kind 
+of information that makes me feel like with enough time and investment I could
+do something like flash an Arduino manually, or write assembly programs for it.
+
+[ATMega328p Manual](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwizzeSO6tL2AhXnrHIEHefODjkQFnoECAYQAQ&url=https%3A%2F%2Fww1.microchip.com%2Fdownloads%2Fen%2FDeviceDoc%2FAtmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf&usg=AOvVaw1saIayRRDKrz7YCcviikuY)
+
 ## Human Resource Machine
 I played through Human Resource Machine. Its a great, fun programming game with a
 sense of humor. I did beat all the puzzles, but I stopped trying to optimized
