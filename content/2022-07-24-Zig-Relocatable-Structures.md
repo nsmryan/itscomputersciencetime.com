@@ -4,11 +4,10 @@ title = "Relocatable Structures in Zig"
 categories = ["Programming", "zig", "memory management"]
 +++
 
-I have a new small Zig project: https://github.com/nsmryan/zig_sealed_and_compact.
+I have a new small Zig project: [zig_sealed_and_compact](https://github.com/nsmryan/zig_sealed_and_compact).
 
 This is an exploration of memory management in Zig. In this case the repository contains functions for
 making structures relocatable in memory even if they contain pointers.
-
 The motivation here is that I was thinking about things I would do in the [roguelike](https://github.com/nsmryan/RustRoguelike) I
 have been working in, but that I don't know how to do in Rust.
 
@@ -82,7 +81,7 @@ or ambigous on how to deal with them in this context.
 
 Its interesting to contrast the trait/typeclass style with Zig comptime type inspection. I was able to write a single
 function that can act on most types, even types that have not explicitly been included in the set of 'sealable' or
-'compactable' types. WIth a trait/typeclass system, types have to be included in the set, but when they are
+'compactable' types. With a trait/typeclass system, types have to be included in the set, but when they are
 they can be given a manual implementation to handle some of the edge cases like C pointers in a type-specific way.
 
 Another difference is that traits often imply some kind of laws about the structure of a type or the operations of the
