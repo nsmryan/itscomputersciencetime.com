@@ -114,3 +114,7 @@ perhaps with fields defined by other libraries or the standard library, and I wi
 acceptable or not. Certain limitations like C pointers might be okay- I may only use this on a subset of my whole game
 structure, for example, or reoganize the data into a GameSave structure with only the desired data, or something like that.
 
+
+I also did not think to implement Vector types or ErrorUnions, which are totally implementable if perhaps less likely cases.
+If I have a little extra time I hope to implement them for completeness.
+
