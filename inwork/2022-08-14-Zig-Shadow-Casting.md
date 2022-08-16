@@ -46,17 +46,66 @@ up in Zig fairly often, and in this case it does have some advantages. This
 staging of type resolution lets you compute and compare types without having to
 do everything within a single line of a function's type signature.
 
-## First, Getting Things to Compile
+## First, Getting Things to Compile, and Then to Run
 
 I ran into a number of issues in the translation. Most of the bugs where small, simple
-issues, but some are worth writing down.
+issues, but some are worth writing down. Much of the translation was mechanical, besides
+function signatures, and a few areas discussed below.
 
 
-TODO write up:
-RowIter compared to Rust iter
-if statements instead of lambdas
-error sets as part of the API, and need to handle with callbacks
-the std lib big rational type. In rust i used a dep, but I don't want to in zig. using for testing, but hand coded a new type
+First, there were a number of places in the Rust code where I used functions like 'map_or',
+which take lambdas. In Zig, this translates into an 'if' statement, which I preferred for
+simplicity.
+
+
+In Rust I had a line "return (min_col..=max_col).map(move |col| (depth, col));" which builds up
+an iterator that yields pairs, and captures the 'depth' variable from the environment.
+
+
+In Zig this expanded out to a RowIter struct with a 'next' function. I have mixed feelings about this-
+on one hand, the RowIter type was easy to write (although I did make a mistake at first which I had
+to track down), and its very easy to understand. There is no magic there. On the other hand, the
+Rust version didn't need this code at all.
+
+
+I also had not previously realized with Zig how the error set becomes part of a function's interface,
+and how this has to be taken into account with callbacks. A function that calls a generic callback has a
+different error set depending on the given function which can make it complex to figure out the available
+errors from a function call like this.
+
+I tried out several concepts with error sets such as allowing them to be inferred and asking the user to
+provide an error type explicitly. The final design side steps the whole discussion and uses a single
+error type. This was by far the most extensive look into error sets that I had done in Zig.
+
+
+One final note on getting this code working was that this algorithm uses a
+rational number type. In Python, this is in the standard library, and in Rust I
+used a dependency. In Zig I did not want to pull in dependencies, which is
+interesting in its own right- Zig is more like C for me where I am more
+interested in self contained libraries with minimal needs. In Rust its so easy
+and natural to depend that you get a lot of leverage from the community, while
+also pulling in (in my experience) huge numbers of libraries and hurting
+compile time.
+
+
+Zig does have a Rational type in the standard library, but it is a 'big' rational, meaning
+that it requires allocation. I didn't want to pull this in as the algorithm does not otherwise
+require allocation. Instead, I wrote a small Rational type with only the few operations that I 
+actually needed. I had to figure out some rational number concepts which I haven't thought about
+in a long time, and I made some mistakes, but the result in a non-normalized rational type
+that does very few operations and requires no allocation.
+
+While debugging this code, I pulled in Zig's big rational type and had all my Rational functions
+perform operations themselves and through Zig's rational type, asserting that the results matched.
+This was a nice way to compare my implementation with a pre-existing one without having to come up with
+every relevant test case myself. The 'compute_fov' function itself provided the test cases by
+calling into my Rational type, which in turn out assert that its results match Zig's std lib
+version.
+
+
+While testing my Rational type, I came across a bug in the Zig standard library, which I filed
+[here](https://github.com/ziglang/zig/issues/12440). The 'order' and 'orderAbs' functions seem to
+have their meaning swapped.
 
 
 ## The ComputeFov Generic Struct
@@ -271,6 +320,8 @@ use this code at some point, so I will see for myself whether the comprise was w
 I expect that there are a number of other possible designs here. 
 
 
+### C Style
+
 It is clear to me that Zig provides enough features that there is a large
 design space compared to C. In C I would either have taken function pointers
 that used "void*" types for user data, or I would have just used fixed data
@@ -287,7 +338,8 @@ just as in C.
 
 
 
-One final design I did consider was converting this whole thing into an iterator
+### Iterator Style
+One design I did consider was converting this whole thing into an iterator
 which yields visible tiles. Perhaps there could even be some kind of protocol
 in the return type which allows the iterator to ask the user about whether a
 tile blocks, and to receive a bool answer before then yielding either a
@@ -300,6 +352,8 @@ and doesn't seem to provide enough benefit for my current needs, but it is
 at least a possible way to design one's way out of this callback problem.
 
 
+### Async Style
+
 Speaking of yielding results, there may be a way to use async as a kind of
 coroutine style which inverts the control flow back to the user rather then
 calling down into callbacks.  This is somewhat appealing - I don't really like
@@ -310,24 +364,30 @@ explore this at the moment, but it may be worth trying some time.
 
 # Zig Thoughts
 
-I feel like this project was a good exploration of Zig for me- it is not yet really
-using Zig in anger, but it is close. I ran into some subtlies, had to ask for help,
-and eventually chose to change my goal to better fit Zig rather then translate it
-verbatim.
+I feel like this project was a good exploration of Zig for me- it is not yet
+really using Zig in anger, but it is close. I ran into some subtleties, had to
+ask for help, and eventually chose to change my goal to better fit Zig rather
+then translate the code verbatim.
 
 
-I found some good and some bad here. I really like seeing how allocators are
-ubiquitous in Zig APIs, I liked how at any place in the code there are fewer
-complex concepts that tend to come up compared to Rust, and I found that Zig's
-documentation, while incomplete, was usable along with the standard library
-source code itself. I like the lack of hidden control flow.
+I found some good and some bad here. Some of the good parts were: I really like
+seeing how allocators are ubiquitous in Zig APIs, I liked how at any place in
+the code there are fewer complex concepts that tend to come up compared to
+Rust, and I found that Zig's documentation, while incomplete, was usable along
+with the standard library source code itself. I like the lack of hidden control
+flow. I like feeling more in control of my code- that simple solutions are the
+right ones and there is not as many fancy solutions out there.
+Finally, I like how easy it is to add tests.
 
 
-One thing that is a little concerning here is that if I had not happened to use a slice type for my map, I would not have
-seen the type inference problem. I would have probably written up and used this code without ever knowing that a small
-difference in types would trigger this mismatch between inferred and given types.
-This would cause a compilation error, not a runtime error, but it would prefer to not leave a time bomb in my libraries
-just waiting for someone to go slightly off the beaten path.
+
+One thing that is a little concerning here is that if I had not happened to use
+a slice type for my map, I would not have seen the type inference problem. I
+would have probably written up and used this code without ever knowing that a
+small difference in types would trigger this mismatch between inferred and
+given types.  This would cause a compilation error, not a runtime error, but it
+would prefer to not leave a time bomb in my libraries just waiting for someone
+to go slightly off the beaten path.
 
 
 It seems like Zig code is a slightly different material then C code. In C, I would expect that a function
@@ -336,8 +396,14 @@ I'm having a hard time articulating the difference, but I don't find that this h
 there is something about Zig that is a little more 'adhoc', perhaps because those other 
 languages are closer to the theory of parametric polymorphism.
 
+
 I did also run into one memory management issue with an ArrayList where I passed the ArrayList itself
 to a function and then used the original variable to check the result. This does not work, as the
 function's copy of the ArrayList likely allocated memory, invalidating the pointer in the original
 variable. I quickly realized my mistake, but Rust would never have allowed the code to compile.
+
+
+I don't have any conclusion for all of this. Programming languages are complicated and the tradeoffs
+involved are complicated. I am planning on continueing my journey with Zig by working through
+a concept for a TCL extension library.
 
