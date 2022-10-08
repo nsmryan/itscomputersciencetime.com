@@ -31,7 +31,7 @@ fn main() {
 
     match value {
         A => println!("A"),
-        B => println!("A"),
+        B => println!("B"),
     }
 }
 ```
@@ -43,7 +43,7 @@ I am fairly familiar with pattern matching from my time with Haskell, so clear w
 
 
 Overall, I would like some way to detect this situation more directly, but I also pay attention to warnings,
-so I'm not all that worried about running into this problem commonly, but bite me twice now, and its worth being aware of.
+so I'm not all that worried about running into this problem commonly, but it bite me twice now, and its worth being aware of.
 
 
 
