@@ -62,6 +62,7 @@ base language. I'm not sure I see much value in omitting them except for perhaps
 There would have to be a large number of extensions, and I imagine a "full" extension that covers
 all language features. Examples of extensions could include:
 
+```
 	1. Floating point numbers, if not in the base language.
 	2. Global variables access.
 	3. Pointers, especially splitting out raw pointers or pointer casts from the base language.
@@ -73,6 +74,7 @@ all language features. Examples of extensions could include:
        For C, this would be the preprocessor.
 	9. Inline assembly, FFI, ect.
 	10. More complex types like untagged unions and packed structs may need to be in an extension.
+```
 
 
 ## Conclusion
