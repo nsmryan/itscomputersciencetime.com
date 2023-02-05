@@ -60,6 +60,9 @@ Both of the currently available ways to create these pointers are given below (b
         // load the integer, and then use the second argument to 'align' to shift that loaded integer,
         // and finally use the size of the value being pointed to (u3 here) to mask out only the desired
         // bits.
+        //
+        // Load a integer of size 1 (third argument) that is aligned to 1 byte (first argument,
+        // shift it by 3 (second argument), and mask it to isolate 3 bits (pointer child type u3).
         try expect(@ptrCast(*align(1:3:1) u3, &bit_field).* == 2);
     }
 ```
