@@ -21,6 +21,11 @@ simple rules. I was able to implement this in less than an hour with tigr, and w
 worked out how inputs works and added mouse and key controls, and played around with making some circuits.
 
 
+I think the rules around the electron tails are the jewel of Wireworld. This is what enables the electrons
+to travel, and to reconstruct the copper behind them even though the world has no other memory of circuit
+structure.
+
+
 I'm a little curious how the computer they discuss in the Wireworld article would run on a modern computer,
 and how it could be optimized.
 
