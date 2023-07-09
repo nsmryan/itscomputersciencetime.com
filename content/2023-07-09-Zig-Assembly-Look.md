@@ -3,7 +3,7 @@ title = "Zig Assembly Look"
 [taxonomies]
 categories = ["C", "Zig", "programming", "assembly", "performance"]
 +++
-After reading [these](https://owen.cafe/posts/six-times-faster-than-c/some) [two](https://owen.cafe/posts/the-same-speed-as-c/) very interesting posts
+After reading [these](https://owen.cafe/posts/six-times-faster-than-c) [two](https://owen.cafe/posts/the-same-speed-as-c) very interesting posts
 on the assembly output of clang and gcc on a small problem, and how to achieve
 better results, I wondered what this would look like in Zig.
 
