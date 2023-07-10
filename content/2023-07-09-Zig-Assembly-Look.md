@@ -5,7 +5,8 @@ categories = ["C", "Zig", "programming", "assembly", "performance"]
 +++
 After reading [these](https://owen.cafe/posts/six-times-faster-than-c) [two](https://owen.cafe/posts/the-same-speed-as-c) very interesting posts
 on the assembly output of clang and gcc on a small problem, and how to achieve
-better results, I wondered what this would look like in Zig.
+better results, I wondered what this would look like in Zig (using Zig master on godbolt).
+
 
 
 ## Set Up
@@ -52,13 +53,13 @@ do not know anything about.
 
 Try to replicate the "Just Don't Branch" section using the psudeocode, translated
 into Zig, does not produce the cmove instructions, but rather a series of cmp, je
-which is no better https://godbolt.org/z/scedMYTer.
+which is no better https://godbolt.org/z/scedMYTer .
 
 
 ## Freeing a Register
 
 Try to free a register by using a variable set to 0, 1, or -1 does result in sete and a cmove instruction,
-although arranged a bit differently https://godbolt.org/z/5vxE7rc9b.
+although arranged a bit differently https://godbolt.org/z/5vxE7rc9b .
 
 
 ## Lookup Table
@@ -69,6 +70,11 @@ Its interesting how C manages to do better then Zig on a simple static array- th
 initialization syntax is really quite simple. For an array requiring more complex calculations,
 Zig's comptime would be better in the sense that C would not support this at all, but still interesting.
 
+## Equals to Bool
+
+Another idea came to me when thinking about vectorizing- just use == to get a 0 or 1, multiple the 'p' value by
+-1, and add them all up.
+With Zig 10 https://godbolt.org/z/13fWfE1v3 , and with Zig master (11) https://godbolt.org/z/1M4jK7q4T
 
 ## Performance
 
@@ -80,21 +86,26 @@ For Zig I wrote my own [benchmarking](https://github.com/nsmryan/zig-c-perf-test
 the concept from the original post except it only creates one executable and lets you choose the algorithm
 with a command line argument. It was built using "-Drelease-fast=true" to match the "-O3" in the original Makefile.
 
+I used both Zig 10 and Zig 11, and provide both results as 10/11.
 
-The straight Zig translation gives me 3.98, so basically the same result. This isn't too surprising, although I would
+The straight Zig translation gives me 3.98/4.7, so basically the same result. This isn't too surprising, although I would
 have expected Zig's rearranging of the 0 branch to get me a slight speedup.
 
-Using 'if' instead of a switch gave me 3.864 seconds, so a very slight speedup.
+Using 'if' instead of a switch gave me 3.864/4.58 seconds, so a very slight speedup.
 
-The 'freeing a register' version gives me 0.774. This is much faster then I expected. Comparing the Zig and C assembly
+The 'freeing a register' version gives me 0.774/0.937. This is much faster then I expected. Comparing the Zig and C assembly
 I think this may be because Zig managed to get a tighter loop- there is only a single conditional jump because the fall
 through behavior is to return. In other words, the action of the loop is all in the cmp/cmove followed by loading the 
 next byte and a conditional jump to to either continue the loop or fall through to a 'ret' to end the function.
 
 
-Finally the lookup table runs in 0.526 seconds. This is pretty comparable to the C versions output. In fact,
+Finally the lookup table runs in 0.526/0.65 seconds. This is pretty comparable to the C versions output. In fact,
 the original post's C version takes 0.525 seconds on my machine, so the Zig and C take basically exactly the same amount of time.
 There is enough variation in the results that the 0.001 second difference is not likely significant.
+
+
+It is interesting that Zig 11 does worse on all benchmarks. However, this is an unreleased version, and I'm not really sure what
+changes are going into this version. Hopefully I can rememeber to benchmark the release when it occurs.
 
 ## Conclusion
 
