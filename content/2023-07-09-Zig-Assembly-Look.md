@@ -119,5 +119,7 @@ and the original poster only gets a speedup after this from writing assembly.
 
 
 One avenue I did not pursue is vectorization. This is interesting in Zig because it makes SIMD a lot more approachable, so it is more
-likely that I would be able to vectorize and get a speedup I would not see if I wrote in C. On the other hand, I didn't write the
-vectored Zig code (yet...) so I don't know what the result would be.
+likely that I would be able to vectorize and get a speedup I would not see if I wrote in C.
+
+
+I tried this in the next post.
